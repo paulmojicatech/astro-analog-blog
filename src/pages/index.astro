@@ -1,4 +1,5 @@
 ---
+import {BestFrameworkComponent} from '../components/best-framework.component';
 
 ---
 
@@ -12,5 +13,40 @@
 	</head>
 	<body>
 		<h1>Astro</h1>
+		<BestFrameworkComponent data-analog-id="bestFrameworkCmp"  client:visible />
+		<div id="answer">
+
+		</div>
+		<script>
+			import { addOutputListener } from '@analogjs/astro-angular/utils';
+
+			addOutputListener('bestFrameworkCmp', 'selectFrameworkEv', (output) => {
+				const answer = document.querySelector('#answer') as HTMLDivElement;
+				let answerText;
+				switch (output.detail) {
+					case 'angular':
+						answer.style.color = 'green';
+						answerText = 'Good job!';
+						break;
+					case 'react':
+						answer.style.color = 'red';
+						answerText = 'React is not a framework, but even if it was you would still be wrong';
+						break;
+					case 'vue':
+						answer.style.color = 'red';
+						answerText = 'Vue is not bad, but try again';
+						break;
+					case 'svelte':
+						answer.style.color = 'red';
+						answerText = 'Close but no cigar';
+						break;
+					default:
+						break;
+				}
+				answer.innerHTML = answerText as string;
+			});
+
+		</script>
 	</body>
+
 </html>
